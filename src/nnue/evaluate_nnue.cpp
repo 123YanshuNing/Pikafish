@@ -33,6 +33,8 @@
 #include "evaluate_nnue.h"
 
 namespace Stockfish::Eval::NNUE {
+int tune_172_0 = 1159, tune_172_1 = 1191, tune_172_2 = 845;
+TUNE(tune_172_0, tune_172_1, tune_172_2);
 
   // Input feature converter
   LargePagePtr<FeatureTransformer> featureTransformer;
@@ -170,7 +172,7 @@ namespace Stockfish::Eval::NNUE {
 
     // Adjust psqt and positional ratio in evaluation when adjusted flag is set
     if (adjusted)
-        return static_cast<Value>((1159 * psqt + 1191 * positional) / (845 * OutputScale));
+        return static_cast<Value>(((tune_172_0) * psqt + (tune_172_1) * positional) / ((tune_172_2) * OutputScale));
     else
         return static_cast<Value>((psqt + positional) / OutputScale);
   }

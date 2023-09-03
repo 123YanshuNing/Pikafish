@@ -22,6 +22,19 @@
 #include "uci.h"
 
 using namespace Stockfish;
+void post_update() {
+    auto f = [&](PieceType pt, Value v) {
+        PieceValue[make_piece(WHITE, pt)] = PieceValue[make_piece(BLACK, pt)] = v;
+    };
+    f(ROOK, RookValue);
+    f(ADVISOR, AdvisorValue);
+    f(CANNON, CannonValue);
+    f(PAWN, PawnValue);
+    f(KNIGHT, KnightValue);
+    f(BISHOP, BishopValue);
+}
+
+TUNE(RookValue, AdvisorValue, CannonValue, PawnValue, KnightValue, BishopValue, post_update);
 
 int main(int argc, char* argv[]) {
 

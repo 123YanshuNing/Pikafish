@@ -36,6 +36,8 @@
 using namespace std;
 
 namespace Stockfish {
+int tune_119_0 = 16, tune_130_0 = 42, tune_134_0 = 708, tune_135_0 = 35116, tune_137_0 = 625, tune_137_1 = 130, tune_137_2 = 1225, tune_141_0 = 268, tune_141_1 = 175;
+TUNE(tune_119_0, tune_130_0, tune_134_0, tune_135_0, tune_137_0, tune_137_1, tune_137_2, tune_141_0, tune_141_1);
 
 namespace Eval {
 
@@ -117,7 +119,7 @@ Value Eval::evaluate(const Position& pos) {
   int simpleEval = simple_eval(pos, stm) + (int(pos.key() & 7) - 3);
 
   bool lazy = abs(simpleEval) >=   RookValue + KnightValue
-                                 + 16 * shuffling * shuffling
+                                 + (tune_119_0) * shuffling * shuffling
                                  + abs(pos.this_thread()->bestValue)
                                  + abs(pos.this_thread()->rootSimpleEval);
 
@@ -128,18 +130,18 @@ Value Eval::evaluate(const Position& pos) {
     int nnueComplexity;
     Value nnue = NNUE::evaluate(pos, true, &nnueComplexity);
 
-    int material = pos.material() / 42;
+    int material = pos.material() / (tune_130_0);
     Value optimism = pos.this_thread()->optimism[stm];
 
     // Blend optimism and eval with nnue complexity and material imbalance
-    optimism += optimism * (nnueComplexity + abs(simpleEval - nnue)) / 708;
-    nnue     -= nnue     * (nnueComplexity + abs(simpleEval - nnue)) / 35116;
+    optimism += optimism * (nnueComplexity + abs(simpleEval - nnue)) / (tune_134_0);
+    nnue     -= nnue     * (nnueComplexity + abs(simpleEval - nnue)) / (tune_135_0);
 
-    v = (nnue * (625 + material) + optimism * (130 + material)) / 1225;
+    v = (nnue * ((tune_137_0) + material) + optimism * ((tune_137_1) + material)) / (tune_137_2);
   }
 
   // Damp down the evaluation linearly when shuffling
-  v = v * (268 - pos.rule60_count()) / 175;
+  v = v * ((tune_141_0) - pos.rule60_count()) / (tune_141_1);
 
   // Guarantee evaluation does not hit the mate range
   v = std::clamp(v, VALUE_MATED_IN_MAX_PLY + 1, VALUE_MATE_IN_MAX_PLY - 1);

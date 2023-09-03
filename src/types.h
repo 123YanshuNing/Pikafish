@@ -256,13 +256,13 @@ enum Value : int {
   VALUE_MATE_IN_MAX_PLY  =  VALUE_MATE - MAX_PLY,
   VALUE_MATED_IN_MAX_PLY = -VALUE_MATE_IN_MAX_PLY,
 
-  RookValue    = 1436,
-  AdvisorValue = 228 ,
-  CannonValue  = 667 ,
-  PawnValue    = 127 ,
-  KnightValue  = 719 ,
-  BishopValue  = 265 ,
 };
+inline Value RookValue = Value(1436);
+inline Value AdvisorValue = Value(228);
+inline Value CannonValue = Value(667);
+inline Value PawnValue = Value(127);
+inline Value KnightValue = Value(719);
+inline Value BishopValue = Value(265);
 
 enum PieceType {
   NO_PIECE_TYPE, ROOK, ADVISOR, CANNON, PAWN, KNIGHT, BISHOP, KING, KNIGHT_TO,
@@ -277,7 +277,7 @@ enum Piece {
   PIECE_NB
 };
 
-constexpr Value PieceValue[PIECE_NB] = { VALUE_ZERO, RookValue, AdvisorValue, CannonValue, PawnValue, KnightValue, BishopValue, VALUE_ZERO,
+inline Value PieceValue[PIECE_NB] = { VALUE_ZERO, RookValue, AdvisorValue, CannonValue, PawnValue, KnightValue, BishopValue, VALUE_ZERO,
                                          VALUE_ZERO, RookValue, AdvisorValue, CannonValue, PawnValue, KnightValue, BishopValue, VALUE_ZERO };
 
 using Depth = int;
